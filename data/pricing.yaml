@@ -1,0 +1,49 @@
+# Tabla de tarifas modular. Editable sin tocar código.
+# Todos los precios en € e IVA incluido (21%). Horquilla = ±15% sobre el base.
+# Última revisión: 2026-05-01
+
+currency: EUR
+vat_included: true
+spread_pct: 15  # porcentaje aplicado arriba y abajo del precio base
+
+chargers:
+  # Precio del cargador (suministro)
+  wallbox_7_4kw_mono: 850
+  wallbox_11kw_tri: 1100
+  wallbox_22kw_tri: 1450
+
+installation_base:
+  # Mano de obra base por tipo de inmueble
+  unifamiliar: 350
+  piso_edificio: 550
+  comunidad: 650
+  empresa: 800
+
+cable_per_meter:
+  # Cable + canaleta + grapas
+  monofasico: 18
+  trifasico: 26
+
+garage_level_surcharge:
+  # Suplemento por planta (cuanto más bajo, más cable y dificultad)
+  planta_baja: 0
+  "-1": 80
+  "-2": 160
+  "-3": 240
+  "-4": 320
+
+electrical_protections:
+  # Cuadro eléctrico + magnetotérmico + diferencial Tipo A o B
+  monofasico: 220
+  trifasico: 320
+
+extras:
+  permiso_comunidad_gestion: 120  # si el cliente pide ayuda con permisos
+  contador_dedicado: 380          # si requiere segundo contador
+
+# Tiempos estimados (horas de instalación)
+install_hours:
+  unifamiliar: 4
+  piso_edificio: 6
+  comunidad: 8
+  empresa: 10

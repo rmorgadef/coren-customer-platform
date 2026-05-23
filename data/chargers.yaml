@@ -1,0 +1,28 @@
+# Catálogo de cargadores recomendados según suministro y vehículo
+# Editable cuando entren nuevos modelos
+
+recommendations:
+  - id: wallbox_7_4kw_mono
+    name: Wallbox 7,4 kW monofásico
+    power_kw: 7.4
+    supply: monofasico
+    suitable_for:
+      - "Vehículos con cargador embarcado monofásico (mayoría híbridos enchufables y eléctricos urbanos)"
+    typical_models: ["Renault Zoe", "Peugeot e-208", "Mini Cooper SE", "Toyota híbridos enchufables"]
+
+  - id: wallbox_11kw_tri
+    name: Wallbox 11 kW trifásico
+    power_kw: 11
+    supply: trifasico
+    suitable_for:
+      - "La mayoría de eléctricos modernos con suministro trifásico"
+    typical_models: ["Tesla Model 3/Y", "VW ID.3/ID.4", "Hyundai Ioniq 5", "Kia EV6", "BMW iX"]
+
+  - id: wallbox_22kw_tri
+    name: Wallbox 22 kW trifásico
+    power_kw: 22
+    supply: trifasico
+    suitable_for:
+      - "Vehículos con cargador embarcado de 22 kW (poco habitual en doméstico)"
+    typical_models: ["Renault Zoe (22kW)", "Smart EQ", "algunos Tesla con cargador opcional"]
+    note: "La mayoría de eléctricos solo aceptan 11 kW en AC. Confirmar antes de elegir 22 kW."

@@ -1,0 +1,12 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+data/rai.db
+data/rai.db-journal
+.DS_Store
+.idea/
+.vscode/
+*.log

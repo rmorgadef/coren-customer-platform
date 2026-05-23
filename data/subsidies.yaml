@@ -1,0 +1,122 @@
+# Ayudas autonómicas vigentes. Revisar trimestralmente.
+# IMPORTANTE: nunca prometer cuantía, solo mencionar existencia y derivar a humano.
+# MOVES III finalizó 31/12/2025: NO mencionar.
+
+last_review: "2026-05-01"
+
+# Mapeo de los dos primeros dígitos del CP a comunidad autónoma
+cp_to_region:
+  "01": pais_vasco
+  "02": castilla_la_mancha
+  "03": comunidad_valenciana
+  "04": andalucia
+  "05": castilla_leon
+  "06": extremadura
+  "07": baleares
+  "08": cataluna
+  "09": castilla_leon
+  "10": extremadura
+  "11": andalucia
+  "12": comunidad_valenciana
+  "13": castilla_la_mancha
+  "14": andalucia
+  "15": galicia
+  "16": castilla_la_mancha
+  "17": cataluna
+  "18": andalucia
+  "19": castilla_la_mancha
+  "20": pais_vasco
+  "21": andalucia
+  "22": aragon
+  "23": andalucia
+  "24": castilla_leon
+  "25": cataluna
+  "26": la_rioja
+  "27": galicia
+  "28": madrid
+  "29": andalucia
+  "30": murcia
+  "31": navarra
+  "32": galicia
+  "33": asturias
+  "34": castilla_leon
+  "35": canarias
+  "36": galicia
+  "37": castilla_leon
+  "38": canarias
+  "39": cantabria
+  "40": castilla_leon
+  "41": andalucia
+  "42": castilla_leon
+  "43": cataluna
+  "44": aragon
+  "45": castilla_la_mancha
+  "46": comunidad_valenciana
+  "47": castilla_leon
+  "48": pais_vasco
+  "49": castilla_leon
+  "50": aragon
+
+# Convocatorias por comunidad. status puede ser: open, closed, pending
+regions:
+  madrid:
+    name: Comunidad de Madrid
+    status: pending
+    note: "Pendiente publicación nueva convocatoria 2026"
+  cataluna:
+    name: Cataluña
+    status: open
+    note: "Convocatoria ICAEN activa - confirmar requisitos con el instalador"
+  andalucia:
+    name: Andalucía
+    status: open
+    note: "Programa Eco-Vehículo Andalucía vigente"
+  comunidad_valenciana:
+    name: Comunidad Valenciana
+    status: closed
+    note: "Última convocatoria cerrada - pendiente nueva publicación"
+  pais_vasco:
+    name: País Vasco
+    status: open
+    note: "EVE - Ente Vasco de la Energía - subvenciones activas"
+  galicia:
+    name: Galicia
+    status: pending
+    note: "IGE - pendiente nueva publicación"
+  aragon:
+    name: Aragón
+    status: closed
+  castilla_leon:
+    name: Castilla y León
+    status: pending
+  castilla_la_mancha:
+    name: Castilla-La Mancha
+    status: closed
+  extremadura:
+    name: Extremadura
+    status: pending
+  asturias:
+    name: Principado de Asturias
+    status: open
+    note: "FAEN - convocatoria activa"
+  cantabria:
+    name: Cantabria
+    status: closed
+  la_rioja:
+    name: La Rioja
+    status: closed
+  navarra:
+    name: Navarra
+    status: open
+    note: "Convocatoria NASUVINSA activa"
+  murcia:
+    name: Región de Murcia
+    status: pending
+  baleares:
+    name: Illes Balears
+    status: open
+    note: "Convocatoria IBE activa para residentes"
+  canarias:
+    name: Canarias
+    status: open
+    note: "Convocatoria del Gobierno de Canarias para vehículos eléctricos"
