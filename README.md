@@ -35,11 +35,12 @@ Componentes:
 
 | Módulo | Responsabilidad |
 | --- | --- |
-| `app/main.py` | FastAPI + endpoint Twilio webhook |
-| `app/agent.py` | Bucle de conversación con Claude (tool use) |
-| `app/prompts.py` | Prompt de sistema de RAI |
+| `app/main.py` | FastAPI + webhook Twilio (con validación de firma) + endpoints |
+| `app/agent.py` | Bucle de conversación con Claude (tool use) + detección de cliente recurrente |
+| `app/prompts.py` | Prompt de sistema de RAI + ejemplos few-shot |
 | `app/tools.py` | Definición y despacho de herramientas |
 | `app/pricing.py` | Motor de cálculo de horquilla de presupuesto |
+| `app/kpis.py` | KPIs de la sección 11 del documento funcional |
 | `app/db.py` | Persistencia SQLite (leads + transcripción) |
 | `app/whatsapp.py` | Cliente Twilio WhatsApp |
 | `app/handoff.py` | Escalado al instalador |
@@ -47,6 +48,7 @@ Componentes:
 | `data/chargers.yaml` | Catálogo de cargadores |
 | `data/subsidies.yaml` | Ayudas autonómicas por CP |
 | `scripts/simulate.py` | CLI para probar el agente sin Twilio |
+| `scripts/follow_up.py` | Seguimientos automáticos a 24h/3d/48h |
 
 ---
 
@@ -102,7 +104,33 @@ Cada conversación produce un lead con uno de estos estados:
 - `escalado` — derivado a humano (motivo registrado)
 - `frio` — sin respuesta tras 2 recordatorios
 
-Consultable vía `GET /leads` o directamente en `data/rai.db`.
+Endpoints de inspección:
+
+- `GET /leads` — lista todos los leads
+- `GET /leads/{id}/messages` — transcripción completa de un lead
+- `GET /kpis` — métricas agregadas (sección 11 del documento)
+
+## Seguimiento automático
+
+`scripts/follow_up.py` aplica las reglas de la sección 9:
+
+| Estado | Tiempo sin respuesta | Acción |
+| --- | --- | --- |
+| incompleto | 24h | Enviar recordatorio amable |
+| incompleto | 3 días | Enviar segundo recordatorio |
+| incompleto | 7 días tras 2º recordatorio | Marcar `frio` + notificar instalador |
+| cualificado | 48h tras oferta | Notificar instalador para llamada |
+
+Ejecutar periódicamente (cron / systemd timer / n8n cada hora):
+
+```bash
+python scripts/follow_up.py            # ejecuta acciones
+python scripts/follow_up.py --dry-run  # solo muestra qué haría
+```
+
+## Seguridad
+
+El webhook valida la firma `X-Twilio-Signature` con el `TWILIO_AUTH_TOKEN`. Si la cabecera falta o no coincide, devuelve `403`. Si `TWILIO_AUTH_TOKEN` no está configurado (dev), se omite la validación con warning.
 
 ---
 
