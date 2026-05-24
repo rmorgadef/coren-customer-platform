@@ -1,13 +1,16 @@
-"""FastAPI app: webhook Twilio WhatsApp + endpoints de inspección/KPIs."""
+"""FastAPI app: webhook Twilio WhatsApp + dashboard + endpoints de inspección/KPIs."""
 
 import logging
+from contextlib import asynccontextmanager
+from pathlib import Path
 
-from fastapi import FastAPI, Form, HTTPException, Request, Response
-from fastapi.responses import JSONResponse
+from fastapi import Depends, FastAPI, Form, HTTPException, Request, Response
+from fastapi.responses import HTMLResponse, JSONResponse
 from twilio.request_validator import RequestValidator
 
 from app import db
 from app.agent import handle_user_message
+from app.auth import require_admin_key
 from app.config import settings
 from app.kpis import compute_kpis
 
@@ -15,12 +18,16 @@ from app.kpis import compute_kpis
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
 logger = logging.getLogger("rai.main")
 
-app = FastAPI(title="RAI — Raidasl WhatsApp Assistant (demo)")
 
-
-@app.on_event("startup")
-def _startup() -> None:
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     db.init_db()
+    yield
+
+
+app = FastAPI(title="RAI — Raidasl WhatsApp Assistant (demo)", lifespan=lifespan)
+
+DASHBOARD_HTML = (Path(__file__).parent / "dashboard.html").read_text(encoding="utf-8")
 
 
 @app.get("/")
@@ -29,11 +36,6 @@ def healthcheck() -> dict:
 
 
 async def _verify_twilio_signature(request: Request, form_data: dict) -> None:
-    """Valida la firma `X-Twilio-Signature` para evitar webhooks falsos.
-
-    Si TWILIO_AUTH_TOKEN no está configurado (entorno de desarrollo sin Twilio),
-    se omite la validación con un warning.
-    """
     if not settings.twilio_auth_token:
         logger.warning("TWILIO_AUTH_TOKEN no configurado, se omite validación de firma")
         return
@@ -56,7 +58,6 @@ async def whatsapp_webhook(
     Body: str = Form(...),
     ProfileName: str = Form(default=""),
 ) -> Response:
-    """Endpoint que recibe los mensajes del Twilio WhatsApp Sandbox."""
     form = await request.form()
     await _verify_twilio_signature(request, dict(form))
 
@@ -78,16 +79,21 @@ async def whatsapp_webhook(
     return Response(content="<Response/>", media_type="application/xml")
 
 
-@app.get("/leads")
+@app.get("/dashboard", response_class=HTMLResponse, dependencies=[Depends(require_admin_key)])
+def dashboard() -> HTMLResponse:
+    return HTMLResponse(DASHBOARD_HTML)
+
+
+@app.get("/leads", dependencies=[Depends(require_admin_key)])
 def list_leads() -> JSONResponse:
     return JSONResponse(db.list_leads())
 
 
-@app.get("/leads/{lead_id}/messages")
+@app.get("/leads/{lead_id}/messages", dependencies=[Depends(require_admin_key)])
 def get_lead_messages(lead_id: int) -> JSONResponse:
     return JSONResponse(db.get_messages(lead_id))
 
 
-@app.get("/kpis")
+@app.get("/kpis", dependencies=[Depends(require_admin_key)])
 def kpis() -> JSONResponse:
     return JSONResponse(compute_kpis())

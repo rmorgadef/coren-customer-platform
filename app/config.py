@@ -18,5 +18,9 @@ class Settings(BaseSettings):
     company_name: str = "Raidasl"
     privacy_policy_url: str = "https://raidasl.example/privacidad"
 
+    # API key para proteger /leads, /leads/{id}/messages y /kpis.
+    # Si está vacío, los endpoints son accesibles sin auth (dev local).
+    admin_api_key: str = ""
+
 
 settings = Settings()

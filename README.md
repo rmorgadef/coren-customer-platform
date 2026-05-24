@@ -47,8 +47,11 @@ Componentes:
 | `data/pricing.yaml` | Tabla de tarifas editable |
 | `data/chargers.yaml` | Catálogo de cargadores |
 | `data/subsidies.yaml` | Ayudas autonómicas por CP |
+| `app/dashboard.html` | Dashboard visual servido en `/dashboard` |
+| `app/auth.py` | Auth por API key para endpoints administrativos |
 | `scripts/simulate.py` | CLI para probar el agente sin Twilio |
 | `scripts/follow_up.py` | Seguimientos automáticos a 24h/3d/48h |
+| `scripts/seed_demo_data.py` | Genera 5 leads de muestra para el dashboard |
 
 ---
 
@@ -106,9 +109,18 @@ Cada conversación produce un lead con uno de estos estados:
 
 Endpoints de inspección:
 
-- `GET /leads` — lista todos los leads
-- `GET /leads/{id}/messages` — transcripción completa de un lead
-- `GET /kpis` — métricas agregadas (sección 11 del documento)
+- `GET /dashboard` — UI web con KPIs en vivo, lista de leads y conversación
+- `GET /leads` — lista todos los leads (JSON)
+- `GET /leads/{id}/messages` — transcripción completa de un lead (JSON)
+- `GET /kpis` — métricas agregadas, sección 11 del documento (JSON)
+
+Para enseñar el dashboard sin tener que disparar conversaciones reales:
+
+```bash
+python scripts/seed_demo_data.py
+uvicorn app.main:app --reload
+# abre http://localhost:8000/dashboard
+```
 
 ## Seguimiento automático
 
@@ -130,7 +142,9 @@ python scripts/follow_up.py --dry-run  # solo muestra qué haría
 
 ## Seguridad
 
-El webhook valida la firma `X-Twilio-Signature` con el `TWILIO_AUTH_TOKEN`. Si la cabecera falta o no coincide, devuelve `403`. Si `TWILIO_AUTH_TOKEN` no está configurado (dev), se omite la validación con warning.
+**Webhook entrante**: el endpoint `/webhook/whatsapp` valida la firma `X-Twilio-Signature` con el `TWILIO_AUTH_TOKEN`. Si la cabecera falta o no coincide, devuelve `403`. Si `TWILIO_AUTH_TOKEN` no está configurado (dev), se omite la validación con warning.
+
+**Endpoints administrativos**: `/dashboard`, `/leads`, `/leads/{id}/messages` y `/kpis` se protegen con `ADMIN_API_KEY` si está definido. Cliente puede enviarla por cabecera `X-Admin-API-Key: <clave>` o por query param `?key=<clave>`. Si `ADMIN_API_KEY` está vacío (dev), los endpoints son públicos.
 
 ---
 
