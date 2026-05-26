@@ -5,12 +5,19 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     # ── LLM: chain primary → fallbacks ──────────────────────────────
-    # `llm_primary` puede ser: "ollama" | "anthropic" | "deepseek"
-    # `llm_fallbacks` es una lista separada por comas en el mismo orden:
-    #   ej: "deepseek,anthropic" → DeepSeek primero, luego Anthropic Haiku
+    # `llm_primary` puede ser:
+    #   "scaleway"  → Scaleway Generative API (Mistral, Gemma, Llama... en París)
+    #   "ollama"    → Modelo on-prem vía Ollama (Gemma4, Llama, Qwen...)
+    #   "anthropic" → Claude vía Anthropic API
+    #   "deepseek"  → DeepSeek API (no soberano EU)
+    # `llm_fallbacks` es una lista CSV en orden.
     # La heurística determinista siempre se añade como último eslabón.
-    llm_primary: str = "anthropic"
-    llm_fallbacks: str = "anthropic"  # CSV; opcional
+    #
+    # Recomendado para producción RAI (soberanía EU + coste óptimo):
+    #   LLM_PRIMARY=scaleway
+    #   LLM_FALLBACKS=scaleway   (Small como primary, Medium como fallback)
+    llm_primary: str = "scaleway"
+    llm_fallbacks: str = "scaleway"
 
     # Anthropic Claude
     anthropic_api_key: str = ""
@@ -22,6 +29,14 @@ class Settings(BaseSettings):
     deepseek_api_key: str = ""
     deepseek_base_url: str = "https://api.deepseek.com/v1"
     deepseek_model: str = "deepseek-chat"
+
+    # Scaleway Generative API (París, soberano EU). OpenAI-compatible.
+    # Catálogo: https://www.scaleway.com/en/pricing/model-as-a-service/
+    # Recomendado: Mistral Small como primary, Mistral Medium como fallback.
+    scaleway_api_key: str = ""
+    scaleway_base_url: str = "https://api.scaleway.ai/v1"
+    scaleway_model: str = "mistral-small-3.2-24b-instruct-2506"
+    scaleway_fallback_model: str = "mistral-medium-3.5-128b"
 
     # Ollama local. Gemma 4 (https://ollama.com/library/gemma4/tags) tiene
     # tool calling nativo (capability: tools). Variante por defecto: e4b
