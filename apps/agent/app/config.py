@@ -23,9 +23,17 @@ class Settings(BaseSettings):
     deepseek_base_url: str = "https://api.deepseek.com/v1"
     deepseek_model: str = "deepseek-chat"
 
-    # Ollama local (Gemma4, Llama3, Qwen, etc.)
+    # Ollama local. Gemma 4 (https://ollama.com/library/gemma4/tags) tiene
+    # tool calling nativo (capability: tools). Variante por defecto: e4b
+    # (4B params, 9.6GB, 128K ctx) — el sweet spot para RAI: latencia baja
+    # con hardware accesible (16GB VRAM o Apple Silicon 32GB) + tool calling
+    # fiable. Variantes alternativas:
+    #   gemma4:e2b              (7.2GB) dev/laptops sin GPU
+    #   gemma4:e4b-mlx          (9.6GB) si estás en Apple Silicon
+    #   gemma4:26b-it-q4_K_M    (18GB)  bump de calidad si tienes GPU 24GB+
+    #   gemma4:31b-cloud                managed por Ollama Cloud
     ollama_base_url: str = "http://localhost:11434"
-    ollama_model: str = "gemma3:latest"
+    ollama_model: str = "gemma4:e4b"
 
     # Circuit breaker
     circuit_failure_threshold: int = 3

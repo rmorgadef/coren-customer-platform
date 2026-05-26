@@ -21,7 +21,7 @@ class OllamaLLM(LLMClient):
         self,
         *,
         base_url: str = "http://localhost:11434",
-        model: str = "gemma3:latest",
+        model: str = "gemma4:e4b",
         label: str | None = None,
         timeout: float = 30.0,
     ) -> None:
