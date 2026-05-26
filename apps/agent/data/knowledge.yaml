@@ -1,0 +1,103 @@
+# Base de conocimiento para la rama de RAG. Editable sin tocar código.
+# Cada doc es un objeto con id, title, tags y body. El retrieval es por
+# BM25 sobre title + body + tags.
+
+docs:
+  - id: irpf_2026
+    title: Deducción del 15% en IRPF por instalación de cargador
+    tags: [fiscal, IRPF, deducción, ahorro, declaración, 2026]
+    body: >
+      En España, durante 2026 sigue vigente la deducción del 15% en la cuota
+      del IRPF por la instalación de sistemas de recarga de vehículos eléctricos
+      en viviendas particulares y plazas de garaje asociadas. Importante: es un
+      AHORRO FISCAL POSTERIOR (se aplica en la siguiente declaración de la renta),
+      NO un descuento sobre el presupuesto. El cliente paga el precio íntegro al
+      instalador y recupera el 15% al hacer la declaración. Base máxima de
+      deducción: 4.000 € anuales. Requiere factura desglosada con el IVA.
+
+  - id: moves_iii_finalizado
+    title: MOVES III - Estado actual
+    tags: [moves, ayudas, subvención, MOVES, programa]
+    body: >
+      El programa MOVES III, gestionado por el IDAE, finalizó el 31 de diciembre
+      de 2025. NO hay convocatoria nacional MOVES IV publicada a fecha de
+      mayo de 2026. Bajo ningún concepto debe ofrecerse MOVES III como ayuda
+      disponible. Algunas comunidades autónomas mantienen convocatorias
+      propias (ver knowledge: ayudas_autonomicas).
+
+  - id: ayudas_autonomicas
+    title: Ayudas autonómicas para puntos de recarga
+    tags: [ayudas, subvención, autonómicas, comunidades, ICAEN, EVE, FAEN]
+    body: >
+      Las ayudas autonómicas para instalación de puntos de recarga varían por
+      comunidad y por convocatoria. Algunas activas en 2026 (sujeto a cambio):
+      Cataluña (ICAEN), Andalucía (Eco-Vehículo), País Vasco (EVE), Asturias (FAEN),
+      Navarra (NASUVINSA), Baleares (IBE), Canarias. RAI nunca debe prometer
+      cuantía concreta: solo informa de la existencia de convocatoria y deriva al
+      instalador humano para confirmar requisitos y cuantía vigentes.
+
+  - id: cargador_7_4kw
+    title: Wallbox 7,4 kW monofásico
+    tags: [wallbox, 7.4kW, 7,4kW, monofásico, doméstico, especificaciones]
+    body: >
+      El Wallbox de 7,4 kW monofásico es la opción típica para suministros
+      domésticos sin trifásica. Carga un Renault Zoe en ~5h, un Peugeot e-208
+      en ~5h, un Mini Cooper SE en ~4h. Compatible con la mayoría de híbridos
+      enchufables. Conexión por enchufe Schuko/industrial o cableado directo
+      a cuadro. Requiere protección magnetotérmica + diferencial Tipo A.
+
+  - id: cargador_11kw
+    title: Wallbox 11 kW trifásico
+    tags: [wallbox, 11kW, trifásico, recomendado, especificaciones]
+    body: >
+      El Wallbox de 11 kW trifásico es la opción óptima para la mayoría de
+      vehículos eléctricos modernos con suministro trifásico. Carga un Tesla
+      Model 3 LR en ~7,5h, un VW ID.4 en ~7h, un Kia EV6 en ~7,5h. Requiere
+      protección magnetotérmica + diferencial Tipo B (obligatorio por
+      normativa para cargadores trifásicos sin TPM integrado).
+
+  - id: cargador_22kw
+    title: Wallbox 22 kW trifásico
+    tags: [wallbox, 22kW, trifásico, especificaciones, limitaciones]
+    body: >
+      El Wallbox de 22 kW trifásico solo es útil si el VEHÍCULO acepta 22 kW
+      en AC (poco común; solo Renault Zoe, Smart EQ, Tesla con cargador opcional
+      antiguo y algunos otros). La mayoría de eléctricos limitan AC a 11 kW
+      en su cargador embarcado. Antes de recomendar 22 kW, validar que el
+      coche lo aprovecha; si no, mejor 11 kW y se ahorra el cliente diferencia.
+
+  - id: instalacion_proceso
+    title: Proceso de instalación
+    tags: [instalación, proceso, plazos, visita técnica, presupuesto definitivo]
+    body: >
+      Tras la cualificación L1 (vía RAI), el instalador realiza una visita técnica
+      gratuita para confirmar viabilidad, medir cable real necesario, revisar
+      cuadro eléctrico y emitir presupuesto cerrado. Si el cliente acepta, la
+      instalación típica son 4-8 horas (más en garajes -2/-3). El día de la
+      instalación se prueba la carga con el vehículo del cliente y se entrega
+      manual + tarjeta RFID si el modelo lo lleva. RAI no compromete fechas
+      concretas; eso lo confirma el instalador en la visita técnica.
+
+  - id: permiso_comunidad
+    title: Permiso de comunidad para instalar cargador
+    tags: [permiso, comunidad, vecinos, Ley Propiedad Horizontal, LPH]
+    body: >
+      En pisos de edificio con plaza de garaje propia, NO se requiere permiso
+      de la comunidad para instalar un cargador (Ley de Propiedad Horizontal
+      art. 17.5). Basta con NOTIFICAR a la comunidad por escrito con al menos
+      30 días de antelación. Si el cargador requiere modificaciones que
+      afecten a elementos comunes (cuadro general de la comunidad), entonces
+      sí se necesita aprobación. RAI explica esto si el cliente pregunta, pero
+      siempre recomienda confirmarlo con un técnico durante la visita.
+
+  - id: rgpd_tratamiento
+    title: Tratamiento de datos personales (RGPD)
+    tags: [RGPD, privacidad, datos, política, AI Act]
+    body: >
+      Raidasl trata nombre, teléfono y email del cliente bajo base legal de
+      interés legítimo para la atención comercial L1, y bajo consentimiento
+      para campañas posteriores. Los datos viajan a Scaleway (París, UE) y
+      se conservan hasta que el cliente solicite el borrado. RAI se identifica
+      como asistente automatizado en el primer turno (AI Act EU). El cliente
+      puede pedir borrado o portabilidad en cualquier momento; RAI debe escalar
+      esa solicitud a humano para gestión formal.

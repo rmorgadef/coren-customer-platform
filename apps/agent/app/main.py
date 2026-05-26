@@ -27,7 +27,10 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="RAI — Raidasl WhatsApp Assistant (demo)", lifespan=lifespan)
 
-DASHBOARD_HTML = (Path(__file__).parent / "dashboard.html").read_text(encoding="utf-8")
+# El dashboard vive en apps/web-portal/. Desde apps/agent/app/main.py son 3
+# niveles arriba: app/ → agent/ → apps/ → repo/, luego bajamos a web-portal/
+_REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+DASHBOARD_HTML = (_REPO_ROOT / "apps" / "web-portal" / "dashboard.html").read_text(encoding="utf-8")
 
 
 @app.get("/")
